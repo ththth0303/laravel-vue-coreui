@@ -32283,9 +32283,79 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/**
+   * Randomize array element order in-place.
+   * Using Durstenfeld shuffle algorithm.
+   */
+var shuffleArray = function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+};
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-  name: 'dashboard'
+  name: 'dashboard',
+  props: {
+    caption: {
+      type: String,
+      default: 'Table'
+    },
+    hover: {
+      type: Boolean,
+      default: true
+    },
+    striped: {
+      type: Boolean,
+      default: false
+    },
+    bordered: {
+      type: Boolean,
+      default: false
+    },
+    small: {
+      type: Boolean,
+      default: false
+    },
+    fixed: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data: function data() {
+    return {
+      items: shuffleArray([{ username: 'Samppa Nori', registered: '2012/01/01', role: 'Member', status: 'Active' }, { username: 'Estavan Lykos', registered: '2012/02/01', role: 'Staff', status: 'Banned' }, { username: 'Chetan Mohamed', registered: '2012/02/01', role: 'Admin', status: 'Inactive' }, { username: 'Derick Maximinus', registered: '2012/03/01', role: 'Member', status: 'Pending' }, { username: 'Friderik Dávid', registered: '2012/01/21', role: 'Staff', status: 'Active' }, { username: 'Yiorgos Avraamu', registered: '2012/01/01', role: 'Member', status: 'Active' }, { username: 'Avram Tarasios', registered: '2012/02/01', role: 'Staff', status: 'Banned' }, { username: 'Quintin Ed', registered: '2012/02/01', role: 'Admin', status: 'Inactive' }, { username: 'Enéas Kwadwo', registered: '2012/03/01', role: 'Member', status: 'Pending' }, { username: 'Agapetus Tadeáš', registered: '2012/01/21', role: 'Staff', status: 'Active' }, { username: 'Carwyn Fachtna', registered: '2012/01/01', role: 'Member', status: 'Active' }, { username: 'Nehemiah Tatius', registered: '2012/02/01', role: 'Staff', status: 'Banned' }, { username: 'Ebbe Gemariah', registered: '2012/02/01', role: 'Admin', status: 'Inactive' }, { username: 'Eustorgios Amulius', registered: '2012/03/01', role: 'Member', status: 'Pending' }, { username: 'Leopold Gáspár', registered: '2012/01/21', role: 'Staff', status: 'Active' }, { username: 'Pompeius René', registered: '2012/01/01', role: 'Member', status: 'Active' }, { username: 'Paĉjo Jadon', registered: '2012/02/01', role: 'Staff', status: 'Banned' }, { username: 'Micheal Mercurius', registered: '2012/02/01', role: 'Admin', status: 'Inactive' }, { username: 'Ganesha Dubhghall', registered: '2012/03/01', role: 'Member', status: 'Pending' }, { username: 'Hiroto Šimun', registered: '2012/01/21', role: 'Staff', status: 'Active' }, { username: 'Vishnu Serghei', registered: '2012/01/01', role: 'Member', status: 'Active' }, { username: 'Zbyněk Phoibos', registered: '2012/02/01', role: 'Staff', status: 'Banned' }, { username: 'Einar Randall', registered: '2012/02/01', role: 'Admin', status: 'Inactive' }, { username: 'Félix Troels', registered: '2012/03/21', role: 'Staff', status: 'Active' }, { username: 'Aulus Agmundr', registered: '2012/01/01', role: 'Member', status: 'Pending' }]),
+      fields: [{ key: 'username' }, { key: 'registered' }, { key: 'role' }, { key: 'status' }],
+      currentPage: 1,
+      perPage: 5,
+      totalRows: 0
+    };
+  },
+  methods: {
+    getBadge: function getBadge(status) {
+      return status === 'Active' ? 'success' : status === 'Inactive' ? 'secondary' : status === 'Pending' ? 'warning' : status === 'Banned' ? 'danger' : 'primary';
+    },
+    getRowCount: function getRowCount(items) {
+      return items.length;
+    }
+  }
 });
 
 /***/ }),
@@ -64754,6 +64824,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(258);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__containers_Full__ = __webpack_require__(259);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__views_Dashboard__ = __webpack_require__(297);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_Category_views_AdminCategory__ = __webpack_require__(305);
 
 
 
@@ -64761,6 +64832,7 @@ if (false) {
 
 
 // Views
+
 
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
@@ -64780,6 +64852,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
       path: 'dashboard',
       name: 'Dashboard',
       component: __WEBPACK_IMPORTED_MODULE_3__views_Dashboard__["a" /* default */]
+    }, {
+      path: 'category',
+      name: 'Category',
+      component: __WEBPACK_IMPORTED_MODULE_4__modules_Category_views_AdminCategory__["a" /* default */]
     }]
   }]
 }));
@@ -67479,30 +67555,9 @@ if (false) {(function () {
     url: '/dashboard',
     icon: 'icon-speedometer'
   }, {
-    name: 'Dashboard',
-    url: '/dashboard1',
-    icon: 'icon-speedometer',
-    children: [{
-      name: 'Flags',
-      url: '/icons/flags',
-      icon: 'icon-star',
-      badge: {
-        variant: 'success',
-        text: 'NEW'
-      }
-    }, {
-      name: 'Font Awesome',
-      url: '/icons/font-awesome',
-      icon: 'icon-star',
-      badge: {
-        variant: 'secondary',
-        text: '4.7'
-      }
-    }, {
-      name: 'Simple Line Icons',
-      url: '/icons/simple-line-icons',
-      icon: 'icon-star'
-    }]
+    name: 'Category',
+    url: '/category',
+    icon: 'icon-speedometer'
   }, {
     name: 'Charts',
     url: '/charts',
@@ -69295,18 +69350,72 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "b-card",
+    { attrs: { header: _vm.caption } },
+    [
+      _c("b-table", {
+        attrs: {
+          hover: _vm.hover,
+          striped: _vm.striped,
+          bordered: _vm.bordered,
+          small: _vm.small,
+          fixed: _vm.fixed,
+          responsive: "sm",
+          items: _vm.items,
+          fields: _vm.fields,
+          "current-page": _vm.currentPage,
+          "per-page": _vm.perPage
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "status",
+            fn: function(data) {
+              return [
+                _c(
+                  "router-link",
+                  { class: "btn btn-primary", attrs: { to: "th" } },
+                  [_vm._v("\n        Edit\n      ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  { class: "btn btn-danger", attrs: { to: "th" } },
+                  [_vm._v("\n        Delete\n      ")]
+                )
+              ]
+            }
+          }
+        ])
+      }),
+      _vm._v(" "),
+      _c(
+        "nav",
+        [
+          _c("b-pagination", {
+            attrs: {
+              "total-rows": _vm.getRowCount(_vm.items),
+              "per-page": _vm.perPage,
+              "prev-text": "Prev",
+              "next-text": "Next",
+              "hide-goto-end-buttons": ""
+            },
+            model: {
+              value: _vm.currentPage,
+              callback: function($$v) {
+                _vm.currentPage = $$v
+              },
+              expression: "currentPage"
+            }
+          })
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "animated fadeIn" }, [
-      _c("p", { staticClass: "text-info" }, [_vm._v("Hello World")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 if (false) {
@@ -69435,6 +69544,112 @@ if(false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 303 */,
+/* 304 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+
+// import { typeOptions } from '../store/formData'
+var items = [{ isActive: true, age: 40, first_name: 'Dickerson', last_name: 'Macdonald' }, { isActive: false, age: 21, first_name: 'Larsen', last_name: 'Shaw' }, { isActive: false, age: 89, first_name: 'Geneva', last_name: 'Wilson' }, { isActive: true, age: 38, first_name: 'Jami', last_name: 'Carney' }];
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    name: 'AdminCategory',
+
+    // beforeCreate() {
+    //     Helper.changeTitleAdminPage(this.$i18n.t('textManageCategory'))
+    //     this.$store.dispatch('actionFetchCategory', { vue: this })
+    // },
+
+    data: function data() {
+        return {
+            items: items
+        };
+    }
+});
+
+/***/ }),
+/* 305 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_plugins_transform_object_rest_spread_transform_runtime_polyfill_false_helpers_false_node_modules_vue_loader_lib_selector_type_script_index_0_AdminCategory_vue__ = __webpack_require__(304);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b7e96cfc_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdminCategory_vue__ = __webpack_require__(306);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(4);
+var disposed = false
+/* script */
+
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+
+var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_cacheDirectory_true_presets_env_modules_false_targets_browsers_2_uglify_true_plugins_transform_object_rest_spread_transform_runtime_polyfill_false_helpers_false_node_modules_vue_loader_lib_selector_type_script_index_0_AdminCategory_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b7e96cfc_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdminCategory_vue__["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b7e96cfc_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdminCategory_vue__["b" /* staticRenderFns */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\admin\\modules\\Category\\views\\AdminCategory.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b7e96cfc", Component.options)
+  } else {
+    hotAPI.reload("data-v-b7e96cfc", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 306 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("b-table", { attrs: { striped: "", hover: "", items: _vm.items } })
+}
+var staticRenderFns = []
+render._withStripped = true
+
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-b7e96cfc", { render: render, staticRenderFns: staticRenderFns })
+  }
+}
 
 /***/ })
 /******/ ]);

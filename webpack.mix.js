@@ -15,3 +15,4 @@ let mix = require('laravel-mix');
 //    .sass('resources/assets/sass/app.scss', 'public/css');
 mix.js('resources/assets/js/admin/main.js', 'public/js')
    .sass('resources/assets/js/admin/assets/scss/style.scss', 'public/css');
+mix.browserSync('localhost:8000');

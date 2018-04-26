@@ -6,34 +6,9 @@ export default {
       icon: 'icon-speedometer'
     },
     {
-      name: 'Dashboard',
-      url: '/dashboard1',
+      name: 'Category',
+      url: '/category',
       icon: 'icon-speedometer',
-      children: [
-        {
-          name: 'Flags',
-          url: '/icons/flags',
-          icon: 'icon-star',
-          badge: {
-            variant: 'success',
-            text: 'NEW'
-          }
-        },
-        {
-          name: 'Font Awesome',
-          url: '/icons/font-awesome',
-          icon: 'icon-star',
-          badge: {
-            variant: 'secondary',
-            text: '4.7'
-          }
-        },
-        {
-          name: 'Simple Line Icons',
-          url: '/icons/simple-line-icons',
-          icon: 'icon-star'
-        }
-      ]
     },
     {
       name: 'Charts',

@@ -6,6 +6,7 @@ import Full from '../containers/Full'
 
 // Views
 import Dashboard from '../views/Dashboard'
+import Category from '../modules/Category/views/AdminCategory'
 
 Vue.use(Router)
 
@@ -23,8 +24,13 @@ export default new Router({
         {
           path: 'dashboard',
           name: 'Dashboard',
-          component: Dashboard
-        }
+          component: Dashboard,
+        },
+        {
+          path: 'category',
+          name: 'Category',
+          component: Category,
+        },
 
       ]
     }
