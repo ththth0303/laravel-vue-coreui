@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
+use JWTAuth;
 class VerifyJWTToken
 {
     /**

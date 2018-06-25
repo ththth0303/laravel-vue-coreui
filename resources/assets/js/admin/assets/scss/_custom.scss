@@ -1,1 +1,81 @@
 // Here you can add other styles
+.nav-item
+{
+    .router-link-exact-active {
+        color: #fff;
+        background: #20a8d8!important;
+
+        i {
+            color: #fff!important;
+        }
+    }
+}
+
+legend {
+    font-size: 0.875rem;
+}
+
+@keyframes splashSpinner {
+    0% {
+        -webkit-transform: rotate(0);
+        -khtml-transform: rotate(0);
+        transform: rotate(0);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        -khtml-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+.splash-screen {
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.splash-screen .splash-overlay {
+    width: 100%;
+    height: 100%;
+    z-index: 100000;
+    position: fixed;
+    top: 0;
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.28);
+    background: #fff;
+}
+
+.splash-screen .splash-spinner {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    position: fixed;
+    z-index: 100000;
+    height: 60px;
+    width: 60px;
+    -webkit-animation: splashSpinner .8s infinite linear;
+    animation: splashSpinner .8s infinite linear;
+    border: 4px solid #f44336;
+    border-right-color: transparent;
+    border-radius: 50%;
+}
+
+.app-body {
+    .splash-screen .splash-overlay {
+        z-index: 10000;
+        position: absolute;
+        top: 0px;
+    }
+
+    .splash-screen .splash-spinner {
+        position: absolute;
+        z-index: 10000;
+        left: $sidebar-width;
+        right: 0px;
+    }
+}
+
+.mce-notification-inner, .mce-notification-warning {
+    display: none!important;
+}

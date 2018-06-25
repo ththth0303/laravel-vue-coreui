@@ -4,6 +4,7 @@
 
 <script>
     // import { typeOptions } from '../store/formData'
+    import { mapState } from 'vuex'
     const items = [
         { isActive: true, age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
         { isActive: false, age: 21, first_name: 'Larsen', last_name: 'Shaw' },
@@ -23,6 +24,16 @@
             return {
                 items: items,
             }
+        },
+        mounted() {
+            this.$store.dispatch('setAdminContentLoading', true);
+            console.log(this.$store.state);
+            
+            setTimeout(() => {
+                this.$store.dispatch('setAdminContentLoading', false);
+            }, 1000);
+            // console.log(this.admin);
+            
         },
 
         // methods: {
@@ -54,10 +65,13 @@
         //     },
         // },
 
-        // computed: {
-        //     items() {
-        //         return this.$store.state.storeAdminCategory.listFetch
-        //     },
-        // },
+        computed: {
+            items1() {
+                return this.$store.state.storeAdminCategory.listFetch
+            },
+            ...mapState([
+                'admin.th'
+            ])
+        },
     }
 </script>

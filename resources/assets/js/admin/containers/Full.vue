@@ -2,6 +2,10 @@
   <div class="app">
     <AppHeader/>
     <div class="app-body">
+        <div class="splash-screen" v-show="mainLoading">
+            <div class="splash-overlay" v-show="mainLoading"></div>
+            <div class="splash-spinner"></div>
+        </div>
       <Sidebar :navItems="nav"/>
       <main class="main">
         <breadcrumb :list="list"/>
@@ -39,6 +43,9 @@ export default {
     },
     list () {
       return this.$route.matched
+    },
+    mainLoading() {
+        return this.$store.state.storeLoading.contentLoading
     }
   }
 }
