@@ -27,9 +27,30 @@ export default new Router({
           component: Dashboard,
         },
         {
-          path: 'user',
           name: 'User',
-          component: User,
+          path: '/user',
+          component: {
+            render(c) {
+              return c('router-view')
+            }
+          },
+          children: [
+            {
+              path: '',
+              name: 'User list',
+              component: User
+            },
+            {
+              path: 'add',
+              name: 'Add User',
+              component: User
+            },
+            {
+              path: 'edit/:id',
+              name: 'Update User',
+              component: User
+            }
+          ]
         },
 
       ]
