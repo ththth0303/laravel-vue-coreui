@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use Hash;
+use App\Http\Requests\Api\AddUserRequest;
 
 class UserController extends Controller
 {
@@ -17,9 +19,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = $this->user->all();
+        $perPage = 9;
+        $perPage = $request->has('perPage') ? $request->perPage : $perPage;
+        $user = $this->user->paginate($perPage);
 
         return response()->json($user);
     }
@@ -30,9 +34,11 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddUserRequest $request)
     {
-        if ($this->use->create($request->all())) {
+        $user = $request->except('password');
+        $user['password'] = Hash::make($request->password);
+        if ($this->user->create($request->all())) {
             return response()->json(['message' => 'success']);
         }
 

@@ -3,6 +3,10 @@
     <AppHeader/>
     <div class="app-body">
       <Sidebar :navItems="nav"/>
+      <div class="splash-screen" v-show="loading">
+          <div class="splash-overlay" v-show="loading"></div>
+          <div class="splash-spinner"></div>
+      </div>
       <main class="main">
         <breadcrumb :list="list"/>
         <div class="container-fluid">
@@ -39,6 +43,9 @@ export default {
     },
     list () {
       return this.$route.matched
+    },
+    loading () {
+        return this.$store.state.loading.loading
     }
   }
 }

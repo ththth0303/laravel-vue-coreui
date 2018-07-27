@@ -63,7 +63,7 @@ export default {
   data: () => {
     return {
       items: shuffleArray([
-        {username: 'Samppa Nori', registered: '2012/01/01', role: 'Member', status: 'Active'},
+        {username: "<script>alert('11111')/<//script>", registered: '2012/01/01', role: 'Member', status: 'Active'},
         {username: 'Estavan Lykos', registered: '2012/02/01', role: 'Staff', status: 'Banned'},
         {username: 'Chetan Mohamed', registered: '2012/02/01', role: 'Admin', status: 'Inactive'},
         {username: 'Derick Maximinus', registered: '2012/03/01', role: 'Member', status: 'Pending'},
@@ -95,7 +95,7 @@ export default {
         {key: 'role'},
         {key: 'status'}
       ],
-      currentPage: 1,
+      currentPage: 3,
       perPage: 5,
       totalRows: 0
     }

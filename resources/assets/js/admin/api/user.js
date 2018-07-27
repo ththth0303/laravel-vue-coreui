@@ -1,5 +1,7 @@
 export function callApiFetch(params = {}) {
-    return axios.get('/user', params)
+    console.log(params);
+    
+    return axios.get('/user', { params })
         .then(response => response)
         .catch(error => error)
 }

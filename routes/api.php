@@ -17,6 +17,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['namespace' => 'Api'], function(){
+Route::post('login', 'Api\Auth\LoginController@login');
+
+Route::group(['namespace' => 'Api', 'middleware' => 'jwt.auth'], function(){
     Route::resource('user', 'UserController');
+    Route::post('checkToken', 'Auth\LoginController@checkToken');
+    Route::get('logout', 'Auth\LoginController@logout');
+    Route::resource('upload/image', 'FileUploadController');
 });

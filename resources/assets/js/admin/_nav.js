@@ -7,12 +7,12 @@ export default {
     },
     {
       name: 'User',
-      url: '/user',
+      url: '/user/page/1',
       icon: 'icon-speedometer',
     },
     {
-      name: 'Charts',
-      url: '/charts',
+      name: 'Markdown ',
+      url: '/markdown',
       icon: 'icon-pie-chart'
     },
     {

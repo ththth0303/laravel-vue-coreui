@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>CoreUI - Open Source Bootstrap Admin Template</title>
     <link rel="shortcut icon" href="/static/img/favicon.png">
-    <link href="{{ mix('build/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('build/css/style.css') }}" rel="stylesheet">
   </head>
 
   <!-- BODY options, add following classes to body to change options
@@ -41,6 +41,7 @@
   <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
     <div id="app"></div>
     <!-- built files will be auto injected -->
-    <script src="{{ mix('build/js/main.js') }}"></script>
+   
+    <script src="{{ asset('build/js/main.js') }}"></script>
   </body>
 </html>

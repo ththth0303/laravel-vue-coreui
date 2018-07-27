@@ -1,4 +1,6 @@
 
+import { setHeader } from './admin/api/config'
+import { setHeaderAxios } from './admin/api/auth';
 window._ = require('lodash');
 window.Popper = require('popper.js').default;
 
@@ -25,6 +27,9 @@ window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 axios.defaults.baseURL = '/api/';
+
+
+setHeaderAxios()
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that

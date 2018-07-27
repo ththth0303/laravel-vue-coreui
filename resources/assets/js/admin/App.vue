@@ -3,8 +3,20 @@
 </template>
 
 <script>
+import { callApiCheckToken, callApiRefreshToken } from "./api/auth";
+
 export default {
-  name: 'app'
+  name: 'app',
+  async mounted() {
+    let auth = await callApiCheckToken();
+    console.log(auth);
+    
+    if (auth.status !== 200) {
+      localStorage.removeItem('token');
+      this.$router.push('/login');
+    }    
+    
+  }
 }
 </script>
 

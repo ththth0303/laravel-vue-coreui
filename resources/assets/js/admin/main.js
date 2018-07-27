@@ -5,13 +5,35 @@ require('../bootstrap');
 
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
+import VeeValidate from "vee-validate";
+import Toastr from 'vue-toastr';
+
 import App from './App'
 import router from './router'
 import store from './store/index'
+
+
+import { setHeaderAxios } from './api/auth'
+
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'vue-toastr/src/vue-toastr.scss'
 
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
+Vue.use(Toastr);
+
+setHeaderAxios();
+// Vue.use(VueToastr2)
+
+const config = {
+  classNames: {
+    valid: 'is-valid',
+    invalid: 'is-invalid',
+  },
+  classes: true,
+  fieldsBagName: 'vee',
+}
+Vue.use(VeeValidate, config)
 
 /* eslint-disable no-new */
 new Vue({
