@@ -14,7 +14,15 @@ export default {
     if (auth.status !== 200) {
       localStorage.removeItem('token');
       this.$router.push('/login');
-    }    
+    }
+    axios.interceptors.response.use(null, function (error) {
+    if (error.status === 401) {
+        this.$router.push('/login');
+        console.log('vào');
+        
+    }
+    return Promise.reject(error);
+}); 
     
   }
 }
