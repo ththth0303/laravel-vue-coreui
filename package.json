@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "bootstrap-vue": "^2.0.0-rc.1",
+        "debounce": "^1.2.0",
         "flag-icon-css": "^3.0.0",
         "font-awesome": "^4.7.0",
         "simple-line-icons": "^2.4.1",

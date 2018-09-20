@@ -21,9 +21,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = 9;
+        $perPage = 10;
         $perPage = $request->has('perPage') ? $request->perPage : $perPage;
-        $user = $this->user->paginate($perPage);
+        $user = $this->user->search($request->all())->paginate($perPage);
 
         return response()->json($user);
     }

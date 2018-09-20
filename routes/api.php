@@ -24,4 +24,6 @@ Route::group(['namespace' => 'Api', 'middleware' => 'jwt.auth'], function(){
     Route::post('checkToken', 'Auth\LoginController@checkToken');
     Route::get('logout', 'Auth\LoginController@logout');
     Route::resource('upload/image', 'FileUploadController');
+    Route::resource('post', 'PostController');
 });
+

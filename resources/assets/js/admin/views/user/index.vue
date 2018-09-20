@@ -1,7 +1,10 @@
 <template>
     <div>
-        <b-button variant="success" @click="add">New user</b-button>
-        <b-card :header="'User List'">
+        <div>
+            <span> Search</span><input v-model="searchQuery" @change="change()" @input="search(e)"/>
+            <b-button variant="success" @click="add" id="create-btn">New user</b-button>
+        </div>
+        <b-card :header="'User List'" class="content-table">
             <b-table :items="items.data" :fields="field">
                 <template slot="name" slot-scope="data">
                     {{ data.item.name }}
@@ -20,6 +23,7 @@
     
 </template>
 <script>
+    const debounce = require('debounce')
     export default {
         name: 'userList',
 
@@ -45,6 +49,7 @@
                 currentPage: 3,
                 userId: null,
                 modalDel: false,
+                searchQuery: null
 
             }
         },
@@ -59,7 +64,7 @@
         },
         methods: {
             changePage(page) {
-                this.$router.push({name: 'User list', params: { page }})
+                this.$router.push({name: 'User list', params: { page, search }})
             },
             edit(id) {
                 this.$router.push({name: 'User edit', params: { id }})
@@ -82,8 +87,26 @@
                 this.userId = id;
                 this.modalDel = true;
 
-            }
+            },
+
+            change() {
+                console.log('change');
+            },
+            search: debounce(function (event) {
+                this.$store.dispatch('getUsers', { page: this.$route.params.page,  search: this.searchQuery});
+            }, 300),
         }
     }
 </script>
+
+<style>
+    #create-btn {
+        float: right;
+    }
+
+    .content-table {
+        clear: both;
+    }
+</style>
+
 
