@@ -5,14 +5,17 @@
             <b-input v-model="title" placeholder="title"/>
             <br>
             <textarea name="markdown" id="markdown"></textarea>
-            <b-modal title="Insert Image" class="modal-danger" v-model="modalImage" ok-variant="danger" ok-only>
+            <b-modal title="Insert Image" class="modal-white" v-model="modalImage" ok-variant="danger" ok-only ok-title="Cancel">
                 <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" @vdropzone-success="fileAdded"></vue-dropzone>
-                <div>
-                    <img v-for="item in files" :src="item.name" :alt="item.memo" :key="item.id" style="width:100px" @click="addImage(item.name)">
+                Your image
+                <div class="img-container">
+                    <img v-for="item in files.data" :src="item.name" :alt="item.memo" :key="item.id" style="width:50px" @click="addImage(item.name)" class="img">
                 </div>
+                <b-pagination align="center" hide-goto-end-buttons size="md" :total-rows="files.total"  :per-page="files.per_page" @change="changePageImg"></b-pagination>
             </b-modal>
-            <b-modal title="Insert Link" class="modal-danger" v-model="modalLink" ok-variant="danger" @ok="addUrl">
-                <input type="text" class="form-control" v-model="link">
+            <b-modal title="Insert Link" class="modal-white" v-model="modalLink" ok-variant="danger" @ok="addUrl" @cancel="cancelLink" cancel-title="Cancel" ok-title="Instert">
+                <label v-show="linkErr" class="text-errors">Doesn't look like a valid URL</label>
+                <input type="text" class="form-control" v-model="link" v-bind:class="{ errors: linkErr }">
             </b-modal>
         </div>
         <div>
@@ -32,32 +35,17 @@
             vueDropzone: vue2Dropzone
         },
 
-        // beforeCreate() {
-        //     this.$store.dispatch('toggleLoading', true);
-        //     this.$store.dispatch('getUsers', { page: this.$route.params.page });
-        // },
-
-        // watch: {
-        //     '$route' (to, from) {
-        //         this.$store.dispatch('getUsers', { page: to.params.page });
-        //     }
-        // },
-
         data() {
             return {
                 modalImage: false,
                 modalLink: false,
+                linkErr: false,
                 simplemde: null,
                 link: null,
                 title: null,
             }
         },
 
-        // computed: {
-            //     items() {
-                //         return this.$store.state.user.users
-        //     },
-        // },
         mounted() {
             this.simplemde = new SimpleMDE({
                 element: document.getElementById("markdown"),
@@ -82,7 +70,6 @@
                     {
                         name: "link",
                         action: () => {
-                            console.log(SimpleMDE.drawLink);
                             this.modalLink = true;
                         },
                         className: "fa fa-link no-mobile",
@@ -90,8 +77,6 @@
                     {
                         name: "image",
                         action: () => {
-                            console.log(SimpleMDE.drawLink);
-                            
                             this.modalImage = true;
                             this.$store.dispatch('getFiles');
                         },
@@ -108,17 +93,19 @@
                     "|",
                     {
                         name: "Help",
-                        action: () => alert('vào'),
+                        action: () => alert('Help'),
                         className: "fa fa-question-circle",
                         title: "Help",},
 	            ]
             });
         },
         methods: {
-            fileAdded(file, response) {
-                console.log(file, response);
+            //add image vào list 
+            fileAdded(file, response, ) {
                 this.$store.dispatch('addFile', response);
+                this.$refs.myVueDropzone.removeFile(file);
             },
+            // insert image vào nội dung soạn thảo
             addImage(url) {
                 let cm = this.simplemde.codemirror
                 cm.replaceSelection("![](" + url + ")");
@@ -128,37 +115,56 @@
                     
                 }, 0);
             },
-            addUrl() {
-                window.prompt = () => {
-                    return this.link;
+            //insert link vào nội dung soạn thảo
+            addUrl(e) {
+                e.preventDefault()
+                if (this.validateUrl()) {
+                    window.prompt = () => {
+                        return this.link;
+                    }
+                    let cm = this.simplemde.codemirror;
+                    SimpleMDE.drawLink(this.simplemde)
+                    setTimeout(function() {
+                        cm.focus();
+                        
+                    }, 0);
+                    this.modalLink = false;
+                    this.linkErr = false;
+                    this.link = false;
+                } else {
+                    this.linkErr = true;
                 }
-                let cm = this.simplemde.codemirror;
-                SimpleMDE.drawLink(this.simplemde)
-                setTimeout(function() {
-                    cm.focus();
-                    
-                }, 0);
-                
-            }
-            ,
-            async savePost() {
-                console.log(this.post);
-                let result = await callApiAdd(this.post);
-                console.log(result);
-                
-                
                 
             },
+            cancelLink() {
+                this.linkErr = false;
+                this.link = null;
+            },
+            validateUrl() {
+                if (!this.link) {
+                    return false;
+                }
+                return this.link.match(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/);
+            },
+            async savePost() {
+                let result = await callApiAdd(this.post);
+            },
+            changePageImg(page) {
+                this.$store.dispatch('getFiles', {page: page});
+            }
         },
         computed: {
+            //config vue2Dropzone
             dropzoneOptions() {
                 let token = JSON.parse(localStorage.getItem('token'));
                 return {
                     url: 'api/upload/image',
                     headers: { "Authorization": token.type + ' ' + token.token },
-                    thumbnailWidth: 150,
-                    maxFilesize: 0.5,
-                    addRemoveLinks: true
+                    thumbnailWidth: 75,
+                    thumbnailHeight: 75,
+                    dictDefaultMessage: "<i class='fa fa-cloud-upload fa-3x'></i></br>  Drag and drop files here or click to upload",
+                    maxFilesize: 2,
+                    addRemoveLinks: true,
                 }
             },
             files() {
@@ -173,4 +179,41 @@
         }
     }
 </script>
+
+<style>
+    .vue-dropzone {
+        border: 2px dashed #dbe3e8;
+    }
+
+    .modal-dialog {
+        max-width: 475px;
+    }
+
+    .img {
+        margin: 10px;
+        cursor: pointer;
+    }
+
+    .img-container{
+        max-height: 250px;
+        overflow: auto;
+    }
+
+    .pagination {
+        margin-bottom: 0px;
+    }
+
+    header, footer {
+        border: none !important;
+    }
+
+    .errors {
+        border: 1px solid red;
+    }
+
+    .text-errors {
+        color: red;
+    }
+</style>
+
 

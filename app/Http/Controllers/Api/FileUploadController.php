@@ -18,7 +18,7 @@ class FileUploadController extends Controller
      */
     public function index()
     {
-        $files = $this->upload->orderBy('id', 'desc')->get();
+        $files = $this->upload->orderBy('id', 'desc')->paginate(18);
 
         return response()->json($files);
     }
