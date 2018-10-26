@@ -49,11 +49,18 @@
             "@php artisan key:generate",
             "@php artisan migrate"
         ],
+        "deploy": [
+            "php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "php artisan key:generate",
+            "php artisan migrate",
+            "npm install",
+            "npm run production"
+        ],
+
         "post-autoload-dump": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover",
-            "@php artisan key:generate",
-            "@php artisan migrate"
+            "@deploy"
         ]
     },
     "config": {
