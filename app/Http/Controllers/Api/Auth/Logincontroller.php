@@ -8,7 +8,7 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Socialite;
 
-class Logincontroller extends Controller
+class LoginController extends Controller
 {
     public function login(Request $request)
     {
