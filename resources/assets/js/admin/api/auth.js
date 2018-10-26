@@ -31,3 +31,18 @@ export function setHeaderAxios(data = null) {
     axios.defaults.headers.common['Authorization'] = data.type + ' ' + data.token;
 }
 
+
+export function configAxios(vue) {
+    // debugger
+    axios.defaults.baseURL = '/api/';
+    axios.interceptors.response.use((response) => {
+        return response
+    }, function (error) {
+        if (error.response.status === 401) {
+            vue.$router.push('/login');
+        }
+        return Promise.reject(error);
+    });
+
+}
+

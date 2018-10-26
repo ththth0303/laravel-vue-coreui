@@ -25,14 +25,12 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
 axios.defaults.baseURL = '/api/';
-
-
-setHeaderAxios()
-axios.interceptors.response.use(null, function (error) {
-    if (error.status === 401) {
-        alert('vapf');
+axios.interceptors.response.use((response) => {
+    return response
+}, function (error) {
+    if (error.response.status === 401) {
+        window.location.replace("admin#/login");
     }
     return Promise.reject(error);
 });

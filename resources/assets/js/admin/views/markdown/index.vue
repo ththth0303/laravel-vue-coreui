@@ -1,6 +1,7 @@
 <template>
     <div>
         <div>
+            
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
             <b-input v-model="title" placeholder="title"/>
             <br>

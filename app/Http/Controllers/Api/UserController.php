@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Hash;
 use App\Http\Requests\Api\AddUserRequest;
+use App\Jobs\SendWelcomeEmail;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -21,7 +23,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = 10;
+        $perPage = 8;
         $perPage = $request->has('perPage') ? $request->perPage : $perPage;
         $user = $this->user->search($request->all())->paginate($perPage);
 
@@ -38,7 +40,13 @@ class UserController extends Controller
     {
         $user = $request->except('password');
         $user['password'] = Hash::make($request->password);
-        if ($this->user->create($request->all())) {
+        // $job = (new SendWelcomeEmail($user));
+        // $job->handle();
+        // dd();
+        SendWelcomeEmail::dispatch($user);
+        dd('dfdf');
+        dispatch(new SendWelcomeEmail($user));
+        if ($this->user->create($user)) {
             return response()->json(['message' => 'success']);
         }
 

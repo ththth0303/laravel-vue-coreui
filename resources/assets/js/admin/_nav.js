@@ -7,7 +7,7 @@ export default {
     },
     {
       name: 'User',
-      url: '/user/page/1',
+      url: '/user/page/',
       icon: 'icon-speedometer',
     },
     {

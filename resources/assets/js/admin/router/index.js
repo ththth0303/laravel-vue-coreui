@@ -11,6 +11,7 @@ import User from '../views/user/index'
 import UserEdit from '../views/user/edit'
 import UserAdd from '../views/user/add'
 import Markdown from '../views/markdown/index'
+import FileManager from '../views/file-manager/index'
 
 Vue.use(Router)
 
@@ -47,7 +48,7 @@ const router =    new Router({
                     },
                     children: [
                         {
-                            path: 'page/:page',
+                            path: 'page/:page?/:search?',
                             name: 'User list',
                             component: User
                         },
@@ -61,12 +62,20 @@ const router =    new Router({
                             name: 'User edit',
                             component: UserEdit
                         },
+                        {
+                            path: 'search/page/:page'
+                        }
                     ]
                 },
                 {
                     path: '/markdown',
                     name: 'Markdown',
                     component: Markdown
+                },
+                {
+                    path: '/file-manager',
+                    name: 'FileManager',
+                    component: FileManager
                 }
 
             ]

@@ -21,10 +21,10 @@ import 'vue-toastr/src/vue-toastr.scss'
 
 Vue.use(BootstrapVue);
 Vue.use(Toastr);
-
 setHeaderAxios();
 // Vue.use(VueToastr2)
 
+require('./config/http');
 const config = {
   classNames: {
     valid: 'is-valid',
@@ -36,7 +36,7 @@ const config = {
 Vue.use(VeeValidate, config)
 
 /* eslint-disable no-new */
-new Vue({
+let a = new Vue({
   el: '#app',
   router,
   store,
@@ -45,3 +45,6 @@ new Vue({
     App
   }
 })
+
+// console.log(a.$router);
+

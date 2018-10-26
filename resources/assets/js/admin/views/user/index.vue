@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <span> Search</span><input v-model="searchQuery" @change="change()" @input="search(e)"/>
+            <span> Search</span><input v-model="searchQuery" @input="search()"/>
             <b-button variant="success" @click="add" id="create-btn">New user</b-button>
         </div>
         <b-card :header="'User List'" class="content-table">
@@ -29,12 +29,15 @@
 
         beforeCreate() {
             this.$store.dispatch('toggleLoading', true);
-            this.$store.dispatch('getUsers', { page: this.$route.params.page });
+            this.$store.dispatch('getUsers', { page: this.$route.params.page, search: this.$route.params.search});
         },
 
         watch: {
             '$route' (to, from) {
-                this.$store.dispatch('getUsers', { page: to.params.page });
+                console.log(to);
+                console.log(from);
+                
+                this.$store.dispatch('getUsers', { page: to.params.page, search: to.params.search });
             }
         },
 
@@ -56,15 +59,25 @@
 
         computed: {
             items() {
+                console.log(this.$store.state);
+                
                 return this.$store.state.user.users
             },
+            searchData() {
+                if (!this.searchQuery) {
+                    return null;
+                }
+
+                return this.searchQuery;
+            }
         },
         mounted() {
             this.$store.dispatch('toggleLoading', false);
+            this.searchQuery = this.$route.params.search;
         },
         methods: {
             changePage(page) {
-                this.$router.push({name: 'User list', params: { page, search }})
+                this.$router.push({name: 'User list', params: { page, search: this.searchData }})
             },
             edit(id) {
                 this.$router.push({name: 'User edit', params: { id }})
@@ -74,13 +87,11 @@
                 let result = await this.$store.dispatch('deleteUser', this.userId);
                 this.$toastr.s(result.data.message)
                 if (this.items.data.length === 1 && this.$route.params.page !== '1') {
-                    return this.$router.push({name: 'User list', params: { page: this.$route.params.page - 1 }});
+                    return this.$router.push({name: 'User list', params: { page: this.$route.params.page - 1, search: this.searchData }});
                 }
-                this.$store.dispatch('getUsers', { page: this.$route.params.page });
+                this.$store.dispatch('getUsers', { page: this.$route.params.page, search: this.searchData });
             },
             add() {
-                console.log('vào');
-                
                 this.$router.push({name: 'User add'})
             },
             confirmDel(id) {
@@ -88,13 +99,11 @@
                 this.modalDel = true;
 
             },
-
-            change() {
-                console.log('change');
-            },
-            search: debounce(function (event) {
-                this.$store.dispatch('getUsers', { page: this.$route.params.page,  search: this.searchQuery});
-            }, 300),
+            search: debounce(function () {
+                console.log(this.searchData);
+                
+                this.$router.push({name: 'User list', params: { page: '1', search: this.searchData}})
+            }, 500),
         }
     }
 </script>

@@ -1,5 +1,6 @@
 <template>
     <div>
+                <div class="">{{ error }}{{ errors.first('email') }}</div>
         <b-card>
             <template  slot="header">User Add</template>
             <b-form @submit.prevent="add">
@@ -9,7 +10,7 @@
                 <b-input-group-prepend>
                   <b-input-group-text><i class="fa fa-user"></i></b-input-group-text>
                 </b-input-group-prepend>
-                <input type="text" placeholder="Username" v-model="item.name" name="name" class="form-control" v-validate="'required'" autofocus>
+                <input type="text" placeholder="Username" v-model="item.name" name="name" class="form-control" v-validate="'required|max:255'" autofocus>
                 <div class="invalid-feedback">{{ errors.first('name') }}</div>
               </b-input-group>
             </b-form-group>
@@ -27,7 +28,7 @@
                 <b-input-group-prepend>
                   <b-input-group-text><i class="fa fa-key"></i></b-input-group-text>
                 </b-input-group-prepend>
-                <input type="password" placeholder="Password" name="password" v-validate="'required'" class="form-control" v-model="item.password" ref="password">
+                <input type="password" placeholder="Password" name="password" v-validate="''" class="form-control" v-model="item.password" ref="password">
                 <div class="invalid-feedback">{{ errors.first('password') }}</div>
               </b-input-group>
             </b-form-group>
@@ -50,6 +51,7 @@
     
 </template>
 <script>
+    import { ErrorBag } from 'vee-validate';
     export default {
         name: 'userEdit',
 
@@ -60,7 +62,9 @@
 
         data () {
             return {
-                item: {name: '', email: '', password: ''}
+                item: {name: '', email: '', password: ''},
+                error: null
+                
             } 
         },
 
@@ -76,14 +80,34 @@
             async add() {
                 if (await this.$validator.validate()) {
                     let user = await this.$store.dispatch('addUser', this.item);
-                    if (user.response.status !== 200) {
-                        
-                        return this.$toastr.w('Invalid data')
+                    if (user.response && user.response.status === 422) {
+                        let err =  user.response.data.errors;
+                        for (const key in err) {
+                            if (err.hasOwnProperty(key)) {
+                                const element = err[key];
+                                let field =  this.$validator.fields.find({ name: key });
+                                field.setFlags({invalid: true});
+                                this.errors.add({
+                                    field: key,
+                                    msg: element[0],
+                                    id: field.id,
+                                    scope: field.scope
+                                });
+
+                                
+                            }
+                        }
+
+
+                        return this.$toastr.w('Invalid data');
+
                     }
                     this.$router.go(-1);
                     
                     return this.$toastr.s('Add Success')
                 }
+                console.log( this.errors);
+                this.$validator.errors.clear();
             },
         }
     }

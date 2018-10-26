@@ -20,3 +20,7 @@ Route::get('/admin', function () {
 
 Route::get('login/facebook', 'Api\Auth\LoginController@redirectToProvider');
 Route::get('login/facebook/callback', 'Api\Auth\LoginController@handleProviderCallback');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

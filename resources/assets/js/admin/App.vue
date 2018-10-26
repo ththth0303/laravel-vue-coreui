@@ -3,27 +3,13 @@
 </template>
 
 <script>
-import { callApiCheckToken, callApiRefreshToken } from "./api/auth";
+import { callApiCheckToken, callApiRefreshToken, configAxios } from "./api/auth";
+// import axios from 'axios';
 
 export default {
   name: 'app',
   async mounted() {
-    let auth = await callApiCheckToken();
-    console.log(auth);
-    
-    if (auth.status !== 200) {
-      localStorage.removeItem('token');
-      this.$router.push('/login');
-    }
-    axios.interceptors.response.use(null, function (error) {
-    if (error.status === 401) {
-        this.$router.push('/login');
-        console.log('vào');
-        
-    }
-    return Promise.reject(error);
-}); 
-    
+    configAxios(this); 
   }
 }
 </script>

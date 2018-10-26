@@ -33,4 +33,9 @@ class User extends Authenticatable
             return $query->where('email', 'like', '%' . $condition['search'] . '%')->orWhere('name', 'like', '%' . $condition['search'] . '%');
         }
     }
+
+    public function posts()
+    {
+        return $this->hasMany('App\Api\Post');
+    }
 }
