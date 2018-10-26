@@ -43,8 +43,6 @@ class UserController extends Controller
         // $job = (new SendWelcomeEmail($user));
         // $job->handle();
         // dd();
-        SendWelcomeEmail::dispatch($user);
-        dd('dfdf');
         dispatch(new SendWelcomeEmail($user));
         if ($this->user->create($user)) {
             return response()->json(['message' => 'success']);

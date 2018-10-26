@@ -28,7 +28,7 @@ class LoginController extends Controller
         // all good so return the token
         return response()->json([
             'type' => 'Bearer',
-            'token' => $token
+            'token' => $token,
         ]);
     }
 
