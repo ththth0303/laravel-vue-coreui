@@ -1,9 +1,9 @@
+import axios from "../config/http";
+
 export function callApiFetch(params = {}) {
     console.log(params);
     
-    return axios.get('/user', { params })
-        .then(response => response)
-        .catch(error => error)
+    return axios.get('/user', { params });
 }
 
 export function callApiAdd(params) {

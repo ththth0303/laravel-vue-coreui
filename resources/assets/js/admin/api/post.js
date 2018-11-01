@@ -1,3 +1,4 @@
+import axios from '../config/http';
 export function callApiFetch(params = {}) {
     console.log(params);
 

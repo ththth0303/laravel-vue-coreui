@@ -1,7 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 
-require('../bootstrap');
+// require('../bootstrap');
 
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
@@ -21,10 +21,8 @@ import 'vue-toastr/src/vue-toastr.scss'
 
 Vue.use(BootstrapVue);
 Vue.use(Toastr);
-setHeaderAxios();
-// Vue.use(VueToastr2)
+// setHeaderAxios();
 
-require('./config/http');
 const config = {
   classNames: {
     valid: 'is-valid',
@@ -36,7 +34,7 @@ const config = {
 Vue.use(VeeValidate, config)
 
 /* eslint-disable no-new */
-let a = new Vue({
+export default new Vue({
   el: '#app',
   router,
   store,

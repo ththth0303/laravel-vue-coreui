@@ -12,7 +12,8 @@ use Carbon\Carbon;
 
 class UserController extends Controller
 {
-    public function __construct(User $user) {
+    public function __construct(User $user)
+    {
         $this->user = $user;
     }
 
@@ -23,6 +24,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        // dd($request->all());
         $perPage = 8;
         $perPage = $request->has('perPage') ? $request->perPage : $perPage;
         $user = $this->user->search($request->all())->paginate($perPage);

@@ -16,9 +16,8 @@ const state = {
 
 const actions = {
     async getFiles({ commit }, data = {}) {
-        let response = await callApiFetch(data)
-
-        return commit(FETCH, { files: response.data })
+        let response = await callApiFetch(data);
+        return commit(FETCH, { files: response.data });
     },
     async addFile({ commit }, data = {}) {
         return state.files.unshift(data);

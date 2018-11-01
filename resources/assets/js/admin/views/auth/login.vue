@@ -47,6 +47,7 @@
 <script>
 
 import { callApiLogin, setHeaderAxios } from "../../api/auth";
+import axios from '../../config/http';
 export default {
     name: 'Login',
     data() {
@@ -67,9 +68,9 @@ export default {
                 console.log(response);
             if (response.status === 200 && response.data && response.data.token && response.data.type) {
                 localStorage.setItem('token', JSON.stringify(response.data))
-                setHeaderAxios();
+                setHeaderAxios(axios);
                 let page = this.$route.query.redirect;
-                console.log(page);
+                this.$store.dispatch('toggleLoading', false);
                 
                 if (page) {
                     return this.$router.push({path: page});

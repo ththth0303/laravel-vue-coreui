@@ -23,21 +23,21 @@
     
 </template>
 <script>
-    const debounce = require('debounce')
+    import { debounce } from 'debounce';
     export default {
         name: 'userList',
 
         beforeCreate() {
-            this.$store.dispatch('toggleLoading', true);
             this.$store.dispatch('getUsers', { page: this.$route.params.page, search: this.$route.params.search});
         },
 
         watch: {
-            '$route' (to, from) {
+            async '$route' (to, from) {
                 console.log(to);
                 console.log(from);
-                
-                this.$store.dispatch('getUsers', { page: to.params.page, search: to.params.search });
+                this.$store.dispatch('toggleLoading', true);
+                await this.$store.dispatch('getUsers', { page: to.params.page, search: to.params.search });
+                this.$store.dispatch('toggleLoading', false);
             }
         },
 

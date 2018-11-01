@@ -1,3 +1,5 @@
+import axios from '../config/http';
+
 export function callApiLogin(params = {}) {
     console.log(params);
 
@@ -20,29 +22,13 @@ export function callApiRefreshToken(params = {}) {
         .catch(error => error)
 }
 
-export function setHeaderAxios(data = null) {
-    data = data || localStorage.getItem('token') || '{}';
+export function setHeaderAxios(axios) {
+    let token =  localStorage.getItem('token') || '{}';
     try {
-        data = JSON.parse(data);
+        token = JSON.parse(token);
     } catch (error) {
 
         return;
     }
-    axios.defaults.headers.common['Authorization'] = data.type + ' ' + data.token;
+    axios.defaults.headers.common['Authorization'] = token.type + ' ' + token.token;
 }
-
-
-export function configAxios(vue) {
-    // debugger
-    axios.defaults.baseURL = '/api/';
-    axios.interceptors.response.use((response) => {
-        return response
-    }, function (error) {
-        if (error.response.status === 401) {
-            vue.$router.push('/login');
-        }
-        return Promise.reject(error);
-    });
-
-}
-

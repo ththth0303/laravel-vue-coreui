@@ -3,14 +3,9 @@
 </template>
 
 <script>
-import { callApiCheckToken, callApiRefreshToken, configAxios } from "./api/auth";
-// import axios from 'axios';
 
 export default {
   name: 'app',
-  async mounted() {
-    configAxios(this); 
-  }
 }
 </script>
 

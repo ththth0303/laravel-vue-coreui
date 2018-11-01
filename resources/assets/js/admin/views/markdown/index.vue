@@ -91,8 +91,6 @@
                     {
                         name: "image",
                         action: () => {
-                            console.log(SimpleMDE.drawLink);
-                            
                             this.modalImage = true;
                             this.$store.dispatch('getFiles');
                         },
